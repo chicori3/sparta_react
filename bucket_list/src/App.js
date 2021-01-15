@@ -11,9 +11,21 @@ class App extends React.Component {
     // App 컴포넌트의 state를 정의해줍니다.
     this.state = {
       list: ["영화관 가기", "매일 책읽기", "수영 배우기"],
+      count: 0,
     };
+    this.text = React.createRef();
   }
+  componentDidMount() {
+    // 콘솔에서 확인해보자!
 
+    console.log(this.text.current);
+  }
+  addList = () => {
+    let list = this.state.list;
+    const item = this.text.current.value;
+
+    this.setState({ list: [...list, item] });
+  };
   // 랜더 함수 안에 리액트 엘리먼트를 넣어줍니다!
   render() {
     return (
@@ -25,14 +37,27 @@ class App extends React.Component {
           {/* <컴포넌트 명 [props 명]={넘겨줄 것(리스트, 문자열, 숫자, ...)}/> */}
           <BucketList list={this.state.list} />
         </Container>
+        <Input>
+          <input type="text" ref={this.text} />
+          <button onClick={this.addList}>추가</button>
+        </Input>
       </div>
     );
   }
 }
+const Input = styled.div`
+  max-width: 350px;
+  min-height: 1vh;
+  background-color: #fff;
+  padding: 16px;
+  margin: 20px auto;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+`;
 
 const Container = styled.div`
   max-width: 350px;
-  min-height: 80vh;
+  min-height: 70vh;
   background-color: #fff;
   padding: 16px;
   margin: 20px auto;
