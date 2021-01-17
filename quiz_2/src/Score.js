@@ -5,11 +5,12 @@ const Score = (props) => {
   return (
     <ScoreContainer>
       <Header>
-        <span>뚱이에</span> 대한
-        <br /> 내 점수는?
+        <span>{props.name}</span> 퀴즈에
+        <br />
+        대한 내 점수는?
       </Header>
       <MyScore>
-        <span>95</span>점<p>뚱이에 대해 많이 알고 있네요!</p>
+        <span>95</span>점<p>{props.scoreMsg}</p>
       </MyScore>
       <Button>랭킹보기</Button>
     </ScoreContainer>
@@ -29,9 +30,10 @@ const ScoreContainer = styled.div`
 `;
 
 const Header = styled.h1`
+  text-align: center;
   font-size: 1.5em;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.6;
   & span {
     background-color: #fef5d4;
     padding: 5px 10px;

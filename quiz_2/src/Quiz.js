@@ -1,23 +1,38 @@
 import React from "react";
 import styled from "styled-components";
 import img from "./pat.png";
+import TinderCard from "react-tinder-card";
+import SwipeItem from "./SwipeItem";
 
 const Quiz = (props) => {
+  // useState Hook
+  const [num, setNum] = React.useState(0);
+
+  const onSwipe = (direction) => {
+    setNum(num + 1);
+    console.log("You swiped: " + direction);
+  };
+
   return (
     <QuizContainer>
       <p>
-        <span>5번 문제</span>
+        <span>{num + 1}번 문제</span>
       </p>
-      <h1>뚱이는 귀여운가요?</h1>
+      {props.list.map((l, index) => {
+        if (num === index) {
+          return <Question key={index}>{l.question}</Question>;
+        }
+      })}
       <AnswerZone>
         <Answer>O</Answer>
         <Answer>X</Answer>
       </AnswerZone>
-      <DragItem>
-        <div>
-          <img src={img} alt="pat" />
-        </div>
-      </DragItem>
+
+      {props.list.map((l, index) => {
+        if (index === num) {
+          return <SwipeItem key={index} onSwipe={onSwipe} />;
+        }
+      })}
     </QuizContainer>
   );
 };
