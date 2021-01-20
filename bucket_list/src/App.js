@@ -1,11 +1,12 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { withRouter } from "react-router";
 // BucketList 컴포넌트를 import 해옵니다.
 // import [컴포넌트 명] from [컴포넌트가 있는 파일경로];
 import BucketList from "./BucketList";
 import styled from "styled-components";
 import Detail from "./Detail";
+import NotFound from "./NotFound";
 
 // 클래스형 컴포넌트는 이렇게 생겼습니다!
 class App extends React.Component {
@@ -41,14 +42,20 @@ class App extends React.Component {
           <Line />
           {/* 컴포넌트를 넣어줍니다. */}
           {/* <컴포넌트 명 [props 명]={넘겨줄 것(리스트, 문자열, 숫자, ...)}/> */}
-          <Route
-            exact
-            path="/"
-            render={(props) => (
-              <BucketList history={this.props.history} list={this.state.list} />
-            )}
-          />
-          <Route path="/detail" component={Detail} />
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <BucketList
+                  history={this.props.history}
+                  list={this.state.list}
+                />
+              )}
+            />
+            <Route path="/detail" component={Detail} />
+            <Route render={(props) => <NotFound history={props.history} />} />
+          </Switch>
         </Container>
         {/* 인풋박스와 추가하기 버튼을 넣어줬어요. */}
         <Input>
