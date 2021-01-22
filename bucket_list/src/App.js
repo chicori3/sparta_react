@@ -59,20 +59,9 @@ class App extends React.Component {
           {/* <컴포넌트 명 [props 명]={넘겨줄 것(리스트, 문자열, 숫자, ...)}/> */}
           {/* Route 쓰는 법 2가지를 모두 써봅시다! */}
           <Switch>
-            <Route
-              path="/"
-              exact
-              render={(props) => (
-                <BucketList
-                  list={this.props.bucket_list}
-                  history={this.props.history}
-                />
-              )}
-            />
+            <Route path="/" exact component={BucketList} />
             <Route path="/detail/:index" component={Detail} />
-            <Route
-              render={(props) => <NotFound history={this.props.history} />}
-            />
+            <Route component={NotFound} />
           </Switch>
         </Container>
         {/* 인풋박스와 추가하기 버튼을 넣어줬어요. */}
