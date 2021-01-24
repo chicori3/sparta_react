@@ -8,7 +8,7 @@ import { addAnswer } from "./redux/modules/quiz";
 
 const Quiz = (props) => {
   const dispatch = useDispatch();
-  const quiz = useSelector((state) => state.quiz.list);
+  const quiz = useSelector((state) => state.quiz.quiz);
   const answers = useSelector((state) => state.quiz.answers);
 
   const num = answers.length;
@@ -23,11 +23,12 @@ const Quiz = (props) => {
       // 오답일 경우,
       dispatch(addAnswer(false));
     }
-
-    if (num > quiz.length - 1) {
-      return <div>퀴즈 끝!</div>;
-    }
   };
+
+  if (num > quiz.length - 1) {
+    return <Score {...props} />;
+  }
+
   return (
     <QuizContainer>
       <p>

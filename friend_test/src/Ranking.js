@@ -1,13 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useSelector, useDispatch } from "react-redux";
+import { resetAnswer } from "./redux/modules/quiz";
+
 const Ranking = (props) => {
-  let ranking = [];
+  const dispatch = useDispatch();
+  const _ranking = useSelector((state) => state.rank.ranking);
+
+  const ranking = _ranking.sort((a, b) => {
+    // 높은 수가 맨 앞으로
+    return b.score - a.score;
+  });
 
   return (
     <RankContainer>
       <Topbar>
-        <p></p>
+        <p>
+          <span>{ranking.length}명</span>의 사람들 중 당신은?
+        </p>
       </Topbar>
 
       <RankWrap>
@@ -26,7 +37,14 @@ const Ranking = (props) => {
         })}
       </RankWrap>
 
-      <Button>다시 하기</Button>
+      <Button
+        onClick={() => {
+          dispatch(resetAnswer());
+          window.location.href = "/";
+        }}
+      >
+        다시 하기
+      </Button>
     </RankContainer>
   );
 };

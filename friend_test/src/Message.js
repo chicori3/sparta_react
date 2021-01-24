@@ -2,9 +2,22 @@ import React from "react";
 import img from "./pat.png";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import { addRank } from "./redux/modules/rank";
 
 const Message = (props) => {
+  const dispatch = useDispatch();
   const name = useSelector((state) => state.quiz.name);
+  const answers = useSelector((state) => state.quiz.answers);
+  const user_name = useSelector((state) => state.rank.user_name);
+  const input_text = React.useRef(null);
+
+  // 정답만 걸러내기
+  let correct = answers.filter((answer) => {
+    return answer;
+  });
+
+  // 점수 계산하기
+  let score = (correct.length / answers.length) * 100;
 
   return (
     <Container>
@@ -12,12 +25,31 @@ const Message = (props) => {
         <Img src={img} alt="pat" />
         <h3>{name}에게 남기는 한 마디</h3>
         <TextBox
+          ref={input_text}
           className="text-box"
           type="textarea"
           rows="4"
           placeholder="내가 하고 싶은 말은 바로 .."
         ></TextBox>
-        <Button className="button">남기고 랭킹 보기</Button>
+
+        <Button
+          className="button"
+          onClick={() => {
+            let rank_info = {
+              score: parseInt(score),
+              name: user_name,
+              message: input_text.current.value,
+              current: true,
+            };
+
+            // 랭킹 정보 넣기
+            dispatch(addRank(rank_info));
+            // 주소 이동
+            props.history.push("/ranking");
+          }}
+        >
+          남기고 랭킹 보기
+        </Button>
       </Outter>
     </Container>
   );
@@ -58,7 +90,7 @@ const Outter = styled.div`
 
 const Img = styled.img`
   width: 80%;
-  margin: 16px;
+  margin: -70px 16px 48px 16px;
 `;
 
 const TextBox = styled.textarea`

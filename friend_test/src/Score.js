@@ -19,10 +19,13 @@ const Score = (props) => {
 
   let score_text = "";
 
-  Object.keys(score_texts).map((s, index) => {
-    if (index === 0) {
+  // Object.keys는 딕셔너리의 키값을 배열로 변환
+  Object.keys(score_texts).map((s, idx) => {
+    // 첫번째 텍스트 넣어주기
+    if (idx === 0) {
       score_text = score_texts[s];
     }
+    // 실제 점수와 기준 점수(키로 넣었던 점수) 비교해서 텍스트를 넣자!
     score_text = parseInt(s) <= score ? score_texts[s] : score_text;
   });
 
@@ -33,8 +36,9 @@ const Score = (props) => {
         <br />
         대한 내 점수는?
       </Header>
+
       <MyScore>
-        <span>95</span>점<p>{score_texts}</p>
+        <span>{score}</span>점<p>{score_text}</p>
       </MyScore>
       <Button
         onClick={() => {
@@ -42,7 +46,7 @@ const Score = (props) => {
         }}
         outlined
       >
-        랭킹보기
+        {name}에게 한 마디
       </Button>
     </ScoreContainer>
   );
