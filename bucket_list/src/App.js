@@ -76,7 +76,7 @@ class App extends React.Component {
             window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
           }}
         >
-          위로가기
+          ⬆
         </button>
       </div>
     );
@@ -91,6 +91,25 @@ const Input = styled.div`
   margin: 20px auto;
   border-radius: 5px;
   border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  & button {
+    width: 25%;
+    background: #1abc9c;
+    color: white;
+    border: 1px solid #1abc9c;
+  }
+  & * {
+    padding: 5px;
+  }
+  & input {
+    width: 70%;
+    &:focus,
+    :hover {
+      border: 3px solid #16a085;
+    }
+  }
 `;
 
 const Container = styled.div`
@@ -104,7 +123,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  color: slateblue;
+  color: #16a085;
   text-align: center;
 `;
 
