@@ -2,10 +2,11 @@ import React from "react";
 
 import { withRouter } from "react-router";
 import { Route, Switch } from "react-router-dom";
+import styled from "styled-components";
 
 // import [컴포넌트 명] from [컴포넌트가 있는 파일경로];
 import BucketList from "./BucketList";
-import styled from "styled-components";
+import Progress from "./Progress";
 import Detail from "./Detail";
 import NotFound from "./NotFound";
 
@@ -54,6 +55,7 @@ class App extends React.Component {
       <div className="App">
         <Container>
           <Title>내 버킷리스트</Title>
+          <Progress />
           <Line />
           {/* 컴포넌트를 넣어줍니다. */}
           {/* <컴포넌트 명 [props 명]={넘겨줄 것(리스트, 문자열, 숫자, ...)}/> */}
@@ -69,6 +71,13 @@ class App extends React.Component {
           <input type="text" ref={this.text} />
           <button onClick={this.addBucketList}>추가하기</button>
         </Input>
+        <button
+          onClick={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          }}
+        >
+          위로가기
+        </button>
       </div>
     );
   }

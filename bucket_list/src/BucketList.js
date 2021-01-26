@@ -18,12 +18,14 @@ const BucketList = (props) => {
           <ItemStyle
             className="list_item"
             key={index}
+            bgColor={list.completed ? "#f39c12" : "aliceblue"}
+            textColor={list.completed ? "white" : ""}
             onClick={() => {
               // 배열의 몇번째 항목을 눌렀는 지, url 파라미터로 넘겨줍니다.
               props.history.push("/detail/" + index);
             }}
           >
-            {list}
+            {list.text}
           </ItemStyle>
         );
       })}
@@ -42,7 +44,8 @@ const ListStyle = styled.div`
 const ItemStyle = styled.div`
   padding: 16px;
   margin: 8px;
-  background-color: aliceblue;
+  background-color: ${(props) => props.bgColor};
+  color: ${(props) => props.textColor};
 `;
 
 export default BucketList;
