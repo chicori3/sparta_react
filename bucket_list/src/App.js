@@ -1,19 +1,17 @@
 import React from "react";
-
 import { withRouter } from "react-router";
 import { Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
-// import [컴포넌트 명] from [컴포넌트가 있는 파일경로];
 import BucketList from "./BucketList";
 import Progress from "./Progress";
 import Detail from "./Detail";
 import NotFound from "./NotFound";
 
-// 리덕스 스토어와 연결하기 위해 connect라는 친구를 호출할게요!
 import { connect } from "react-redux";
-// 리덕스 모듈에서 (bucket 모듈에서) 액션 생성 함수 두개를 가져올게요!
 import { loadBucket, createBucket } from "./redux/modules/bucket";
+
+import { firestore } from "./firebase";
 
 // 이 함수는 스토어가 가진 상태값을 props로 받아오기 위한 함수예요.
 const mapStateTopProps = (state) => ({
@@ -41,7 +39,19 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
+    const bucket = firestore.collection("bucket");
+
+    bucket.get().then((docs) => {
+      let bucket_data = [];
+
+      docs.forEach((doc) => {
+        if (doc.exists) {
+          bucket_data = [...bucket_data, { id: doc.id, ...doc.data() }];
+        }
+      });
+
+      console.log(bucket_data);
+    });
   }
 
   addBucketList = () => {
