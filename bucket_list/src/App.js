@@ -39,19 +39,35 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const bucket = firestore.collection("bucket");
+    const bucket = firestore.collection("bucket2");
 
-    bucket.get().then((docs) => {
-      let bucket_data = [];
+    bucket.doc("bucket_item").set({ text: "다키스트 던전", completed: false });
 
-      docs.forEach((doc) => {
-        if (doc.exists) {
-          bucket_data = [...bucket_data, { id: doc.id, ...doc.data() }];
-        }
-      });
+    // bucket.get().then((docs) => {
+    //   let bucket_data = [];
 
-      console.log(bucket_data);
-    });
+    //   docs.forEach((doc) => {
+    //     if (doc.exists) {
+    //       bucket_data = [...bucket_data, { id: doc.id, ...doc.data() }];
+    //     }
+    //   });
+
+    //   console.log(bucket_data);
+    // });
+
+    // DB 컬렉션 데이터 추가하기
+    // bucket.add({ text: "디스코 엘리시움", completed: false }).then((docRef) => {
+    //   console.log(docRef);
+    //   console.log(docRef.id);
+    // });
+
+    // DB 컬렉션 데이터 수정하기
+    // bucket.doc("bucket_item1").update({ text: "첨탑 오르기" });
+
+    // DB 컬렉션 데이터 삭제하기
+    // bucket.doc("bucket_item2").delete((docRef) => {
+    //   console.log("삭제하기");
+    // });
   }
 
   addBucketList = () => {
