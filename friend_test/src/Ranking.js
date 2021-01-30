@@ -13,6 +13,19 @@ const Ranking = (props) => {
     return b.score - a.score;
   });
 
+  const user_rank = React.useRef(null);
+  React.useEffect(() => {
+    if (!user_rank) {
+      return;
+    }
+
+    window.scrollTo({
+      top: user_rank.current.offsetTop,
+      left: 0,
+      behavior: "smooth",
+    });
+  });
+
   return (
     <RankContainer>
       <Topbar>
@@ -23,8 +36,21 @@ const Ranking = (props) => {
 
       <RankWrap>
         {ranking.map((r, idx) => {
+          if (r.current) {
+            return (
+              <RankItem key={idx} highlight={true} ref={user_rank}>
+                <RankNum>{idx + 1}등</RankNum>
+                <RankUser>
+                  <p>
+                    <b>{r.name}</b>
+                  </p>
+                  <p>{r.message}</p>
+                </RankUser>
+              </RankItem>
+            );
+          }
           return (
-            <RankItem key={idx} highlight={r.current ? true : false}>
+            <RankItem key={idx}>
               <RankNum>{idx + 1}등</RankNum>
               <RankUser>
                 <p>
