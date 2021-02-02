@@ -9,7 +9,12 @@ import Detail from "./Detail";
 import NotFound from "./NotFound";
 
 import { connect } from "react-redux";
-import { loadBucket, createBucket } from "./redux/modules/bucket";
+import {
+  loadBucket,
+  createBucket,
+  loadBucketFB,
+  addBucketFB,
+} from "./redux/modules/bucket";
 
 import { firestore } from "./firebase";
 
@@ -21,10 +26,10 @@ const mapStateTopProps = (state) => ({
 // 이 함수는 값을 변화시키기 위한 액션 생성 함수를 props로 받아오기 위한 함수예요.
 const mapDispatchToProps = (dispatch) => ({
   load: () => {
-    dispatch(loadBucket());
+    dispatch(loadBucketFB());
   },
   create: (new_item) => {
-    dispatch(createBucket(new_item));
+    dispatch(addBucketFB(new_item));
   },
 });
 
@@ -39,35 +44,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const bucket = firestore.collection("bucket2");
-
-    bucket.doc("bucket_item").set({ text: "다키스트 던전", completed: false });
-
-    // bucket.get().then((docs) => {
-    //   let bucket_data = [];
-
-    //   docs.forEach((doc) => {
-    //     if (doc.exists) {
-    //       bucket_data = [...bucket_data, { id: doc.id, ...doc.data() }];
-    //     }
-    //   });
-
-    //   console.log(bucket_data);
-    // });
-
-    // DB 컬렉션 데이터 추가하기
-    // bucket.add({ text: "디스코 엘리시움", completed: false }).then((docRef) => {
-    //   console.log(docRef);
-    //   console.log(docRef.id);
-    // });
-
-    // DB 컬렉션 데이터 수정하기
-    // bucket.doc("bucket_item1").update({ text: "첨탑 오르기" });
-
-    // DB 컬렉션 데이터 삭제하기
-    // bucket.doc("bucket_item2").delete((docRef) => {
-    //   console.log("삭제하기");
-    // });
+    this.props.load();
   }
 
   addBucketList = () => {
