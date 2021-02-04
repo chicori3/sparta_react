@@ -66,7 +66,7 @@ export const addBucketFB = (bucket) => {
     bucket_db.add(bucket_data).then((docRef) => {
       bucket_data = { ...bucket_data, id: docRef.id };
       dispatch(createBucket(bucket_data));
-      dispatch(isLoaded(true));
+      setTimeout(() => dispatch(isLoaded(true)), 300);
     });
   };
 };
@@ -88,7 +88,7 @@ export const updateBucketFB = (index) => {
       .update(bucket_data)
       .then((docRef) => {
         dispatch(updateBucket(index));
-        dispatch(isLoaded(true));
+        setTimeout(() => dispatch(isLoaded(true)), 300);
       })
       .catch((error) => console.log(error));
   };
@@ -108,7 +108,7 @@ export const deleteBucketFB = (index) => {
       .delete()
       .then((docRef) => {
         dispatch(deleteBucket(index));
-        dispatch(isLoaded(true));
+        setTimeout(() => dispatch(isLoaded(true)), 300);
       })
       .catch((error) => {
         console.log(error);
