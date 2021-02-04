@@ -15,6 +15,7 @@ const initialState = {
     { text: "매일 책읽기", completed: false },
     { text: "넷플릭스 보기", completed: false },
   ],
+  is_loaded: false,
 };
 
 // Action 생성 함수
@@ -107,7 +108,7 @@ export default function reducer(state = initialState, action = {}) {
     // do reducer stuff
     case "bucket/LOAD": {
       if (action.bucket.length > 0) {
-        return { list: action.bucket };
+        return { list: action.bucket, is_loaded: true };
       }
 
       return state;
