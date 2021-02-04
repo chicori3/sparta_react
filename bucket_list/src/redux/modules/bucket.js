@@ -7,6 +7,7 @@ const LOAD = "bucket/LOAD";
 const CREATE = "bucket/CREATE";
 const DELETE = "bucket/DELETE";
 const UPDATE = "bucket/UPDATE";
+const LOADED = "bucket/LOADED";
 
 // 초기값 설정
 const initialState = {
@@ -30,8 +31,13 @@ export const createBucket = (bucket) => {
 export const deleteBucket = (bucket) => {
   return { type: DELETE, bucket };
 };
+
 export const updateBucket = (bucket) => {
   return { type: UPDATE, bucket };
+};
+
+export const isLoaded = (loaded) => {
+  return { type: LOADED, loaded };
 };
 
 // firestore 통신
@@ -55,9 +61,12 @@ export const addBucketFB = (bucket) => {
   return function (dispatch) {
     let bucket_data = { text: bucket, completed: false };
 
+    dispatch(isLoaded(false));
+
     bucket_db.add(bucket_data).then((docRef) => {
       bucket_data = { ...bucket_data, id: docRef.id };
       dispatch(createBucket(bucket_data));
+      dispatch(isLoaded(true));
     });
   };
 };
@@ -65,6 +74,8 @@ export const addBucketFB = (bucket) => {
 export const updateBucketFB = (index) => {
   return function (dispatch, getState) {
     const _bucket_data = getState().bucket.list[index];
+
+    dispatch(isLoaded(false));
 
     let bucket_data = { ..._bucket_data, completed: true };
 
@@ -77,6 +88,7 @@ export const updateBucketFB = (index) => {
       .update(bucket_data)
       .then((docRef) => {
         dispatch(updateBucket(index));
+        dispatch(isLoaded(true));
       })
       .catch((error) => console.log(error));
   };
@@ -85,6 +97,7 @@ export const updateBucketFB = (index) => {
 export const deleteBucketFB = (index) => {
   return function (dispatch, getState) {
     const _bucket_data = getState().bucket.list[index];
+    dispatch(isLoaded(false));
 
     if (!_bucket_data.id) {
       return;
@@ -95,6 +108,7 @@ export const deleteBucketFB = (index) => {
       .delete()
       .then((docRef) => {
         dispatch(deleteBucket(index));
+        dispatch(isLoaded(true));
       })
       .catch((error) => {
         console.log(error);
@@ -107,7 +121,7 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     // do reducer stuff
     case "bucket/LOAD": {
-      if (action.bucket.length > 0) {
+      if (action.bucket.length >= 0) {
         return { list: action.bucket, is_loaded: true };
       }
 
@@ -135,6 +149,9 @@ export default function reducer(state = initialState, action = {}) {
         }
       });
       return { list: update_bucket_list };
+
+    case "bucket/LOADED":
+      return { ...state, is_loaded: action.loaded };
 
     default:
       return state;
