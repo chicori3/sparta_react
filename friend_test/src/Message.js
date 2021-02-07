@@ -1,6 +1,7 @@
 import React from "react";
 import img from "./pat.png";
 import styled from "styled-components";
+
 import { useSelector, useDispatch } from "react-redux";
 import { addRank } from "./redux/modules/rank";
 
@@ -9,6 +10,7 @@ const Message = (props) => {
   const name = useSelector((state) => state.quiz.name);
   const answers = useSelector((state) => state.quiz.answers);
   const user_name = useSelector((state) => state.rank.user_name);
+
   const input_text = React.useRef(null);
 
   // 정답만 걸러내기

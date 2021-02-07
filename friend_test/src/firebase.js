@@ -1,8 +1,7 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 import "firebase/firestore";
 
 const firebaseConfig = {
-  // config
   apiKey: "AIzaSyBtfhPvSNyK9KalHw6pI5bY_4trKeMt-xo",
   authDomain: "friend-test-4c4ab.firebaseapp.com",
   projectId: "friend-test-4c4ab",

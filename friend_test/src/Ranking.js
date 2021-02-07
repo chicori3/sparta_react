@@ -3,19 +3,22 @@ import styled from "styled-components";
 
 import { useSelector, useDispatch } from "react-redux";
 import { resetAnswer } from "./redux/modules/quiz";
+import { getRankFB } from "./redux/modules/rank";
+
+import Spinner from "./Spinner";
 
 const Ranking = (props) => {
   const dispatch = useDispatch();
   const _ranking = useSelector((state) => state.rank.ranking);
-
-  const ranking = _ranking.sort((a, b) => {
-    // 높은 수가 맨 앞으로
-    return b.score - a.score;
-  });
+  const is_loaded = useSelector((state) => state.rank.is_loaded);
+  // Array 내장 함수 sort로 정렬하자!
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
   const user_rank = React.useRef(null);
+
   React.useEffect(() => {
-    if (!user_rank) {
+    dispatch(getRankFB());
+    if (!user_rank.current) {
       return;
     }
 
@@ -24,7 +27,15 @@ const Ranking = (props) => {
       left: 0,
       behavior: "smooth",
     });
+  }, []);
+  const ranking = _ranking.sort((a, b) => {
+    // 높은 수가 맨 앞으로 오도록!
+    return b.score - a.score;
   });
+
+  if (!is_loaded) {
+    return <Spinner />;
+  }
 
   return (
     <RankContainer>
@@ -49,6 +60,7 @@ const Ranking = (props) => {
               </RankItem>
             );
           }
+
           return (
             <RankItem key={idx}>
               <RankNum>{idx + 1}등</RankNum>
